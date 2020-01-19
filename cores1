@@ -1,0 +1,79 @@
+PRIVATE tecla:=cont:=0, col:=15, lin:=lin1:=7, col1:=53, barra:="/" ;
+; cor:={"N","B","G","BG","R","RB","GR","W"}
+CLS
+SET CURSOR OFF
+SETBLINK(.F.) 
+DISPBOX(0,0,24,79,"께께께께 ",([W+/B]))
+@ 5,32 SAY "AMOSTRA DE CORES" COLOR ([W+/B])
+DISPBOX(6,23,15,56,1,([W+/B]))
+caixa()
+savecor:=SETCOLOR()
+DO WHILE LASTKEY()#27
+   LETREIRO()
+   tecla:=INKEY(0.01)
+   cont++
+   IF cont=4
+      cont:=0
+   ENDIF
+   IF cont=0
+      barra:="/"
+   ELSEIF cont=1
+      barra:="-"
+   ELSEIF cont=2
+      barra:="\"
+   ELSE
+      barra:="|"
+   ENDIF
+   DO CASE
+      CASE tecla=5
+           lin1--
+           let:=0
+           CAIXA()
+      CASE tecla=24
+           lin1++
+           let:=0
+           CAIXA()
+      CASE tecla=19
+           col1--
+           let:=0
+           CAIXA()
+      CASE tecla=4
+           col1++
+           let:=0
+           CAIXA()
+   ENDCASE
+   IF lin1<7
+      lin1:=14
+   ENDIF
+   IF lin1>14
+      lin1:=7
+   ENDIF
+   IF col1<24
+      col1:=55
+   ENDIF
+   IF col1>55
+      col1:=24
+   ENDIF
+ENDDO
+
+FUNCTION letreiro()
+   @ 17,10 CLEAR TO 17,69
+   @ 17,25 SAY col1-23
+   @ 17,22 SAY lin1-6
+   @ 17,32 SAY "/"
+   @ 17,26 SAY "MAT ["
+   @ 17,35 SAY "]"
+   @ 17,38 SAY SETCOLOR(cor[lin1-6] + "/" + cor[(col1/4)-5] + "*")
+RETURN
+
+FUNCTION caixa()
+   FOR col:=24 TO 52 step 4
+      FOR lin:=7 TO 14 
+          @ lin,col SAY "*" COLOR cor[lin-6] + "/" + cor[(col/4)-5]
+          @ lin,col+1 SAY "*" COLOR cor[lin-6] + "+/" + cor[(col/4)-5]
+          @ lin,col+2 SAY "*" COLOR cor[lin-6] + "/" + cor[(col/4)-5] + "*"
+          @ lin,col+3 SAY "*" COLOR cor[lin-6] + "+/" + cor[(col/4)-5] + "*"
+      NEXT lin
+   NEXT col
+RETURN
+
